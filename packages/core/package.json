@@ -1,0 +1,32 @@
+{
+  "name": "@wallpaper/core",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "axios": "^1.13.0",
+    "conf": "^15.0.2",
+    "image-size": "^2.0.2",
+    "lowdb": "^7.0.1",
+    "nekosapi": "^0.7.0",
+    "screen-resolution": "^1.0.0",
+    "wallpaper": "^7.2.1"
+  },
+  "devDependencies": {
+    "@types/electron": "^1.6.12",
+    "@types/image-size": "^0.8.0",
+    "@types/jest": "^30.0.0",
+    "@types/wallpaper": "^2.5.1",
+    "electron": "^31.7.7"
+  }
+}

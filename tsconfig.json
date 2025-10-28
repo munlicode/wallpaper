@@ -1,0 +1,12 @@
+{
+  "files": [], // This file isn't part of any project
+  "references": [
+    {
+      "path": "packages/core"
+    },
+    {
+      "path": "packages/cli"
+    }
+    // Add paths to any other packages, like "packages/desktop-app"
+  ]
+}

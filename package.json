@@ -1,0 +1,29 @@
+{
+  "name": "wallpaper-tool-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Desktop and CLI wallpaper tool",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "tsc --build",
+    "dev:cli": "pnpm --filter @wallpaper/cli dev",
+    "dev:desktop": "pnpm --filter @wallpaper/desktop-app dev",
+    "test": "NODE_OPTIONS=--experimental-vm-modules pnpm jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20.12.12",
+    "@types/wallpaper": "^2.5.1",
+    "@types/yargs": "^17.0.34",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "lowdb": "^7.0.1",
+    "sharp": "^0.34.4",
+    "wallpaper": "^7.2.1"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@wallpaper/cli",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "wallpaper-dev": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "@types/yargs": "^17.0.32",
+    "@wallpaper/core": "workspace:*",
+    "dotenv": "^16.4.5",
+    "yargs": "^17.7.2"
+  }
+}

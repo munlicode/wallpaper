@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    /* Base Project Options */
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "forceConsistentCasingInFileNames": true,
+    /* Strict Type-Checking */
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    /* Output Options */
+    "declaration": true,
+    "sourceMap": true,
+    /* Monorepo-specific settings */
+    "composite": true,
+    "declarationMap": true,
+    "types": [
+      "jest",
+      "node"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
+}

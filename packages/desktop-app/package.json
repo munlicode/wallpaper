@@ -1,0 +1,9 @@
+{
+  "name": "@wallpaper/desktop-app",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "dependencies": {
+    "electron": "^31.0.0",
+    "@wallpaper/core": "workspace:*"
+  }
+}
