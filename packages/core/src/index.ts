@@ -19,6 +19,11 @@ export {
 } from './database.js';
 export { sourceRegistry } from './sources/index.js';
 export { setCustomDataPath, getDataPath, getSettings, getSetting, setSetting, settingsMeta, getDefaultSettings, type Settings } from './config.js';
+export {
+  startWallpaperService,
+  stopWallpaperService,
+  restartWallpaperService
+} from './scheduler.js';
 
 import { addToHistory } from './database.js';
 import { getScreenResolution, selectOptimalUrl } from './resolution.js';

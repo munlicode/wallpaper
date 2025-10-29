@@ -1,9 +1,19 @@
 {
   "name": "@wallpaper/desktop-app",
   "version": "1.0.0",
-  "main": "dist/main.js",
+  "private": true,
+  "type": "module",
+  "main": "dist/main/index.js",
+  "scripts": {
+    "build": "electron-vite build",
+    "dev": "electron-vite dev"
+  },
   "dependencies": {
-    "electron": "^31.0.0",
-    "@wallpaper/core": "workspace:*"
+    "@wallpaper/core": "workspace:*",
+    "electron": "^31.0.2"
+  },
+  "devDependencies": {
+    "electron-vite": "^2.3.0",
+    "vite": "^5.3.3"
   }
 }

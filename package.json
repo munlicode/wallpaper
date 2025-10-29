@@ -10,14 +10,17 @@
     "build": "tsc --build",
     "dev:cli": "pnpm --filter @wallpaper/cli dev",
     "dev:desktop": "pnpm --filter @wallpaper/desktop-app dev",
-    "test": "NODE_OPTIONS=--experimental-vm-modules pnpm jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules pnpm jest",
+    "clean": "rimraf packages/*/dist packages/*/tsconfig.tsbuildinfo"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.19.24",
     "@types/wallpaper": "^2.5.1",
     "@types/yargs": "^17.0.34",
+    "electron-vite": "^2.3.0",
     "jest": "^30.2.0",
+    "rimraf": "^6.0.1",
     "ts-jest": "^29.4.5",
     "typescript": "^5.9.3"
   },
