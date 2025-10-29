@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import { join } from 'path';
-
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+import * as dotenv from 'dotenv';
 import {
   startWallpaperService,
   addFavorite,
@@ -25,32 +26,40 @@ import {
   type Settings,
 } from '@wallpaper/core';
 
+const currentFile = fileURLToPath(import.meta.url);
+const currentDir = dirname(currentFile);
+const projectRoot = join(currentDir, '../../../../');
+
+dotenv.config({ path: join(projectRoot, '.env') });
 function createWindow() {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      // Attach the preload script
-      preload: join(__dirname, '../preload/index.js'),
+      preload: join(currentDir, '../preload/index.js'),
+      contextIsolation: true,
+      nodeIntegration: false,
     },
   });
-
   if (process.env.NODE_ENV === 'development') {
+    console.info("Starting Dev Sever")
     win.loadURL(process.env.VITE_DEV_SERVER_URL!);
   } else {
-    win.loadFile(join(__dirname, '../renderer/index.html'));
+    console.info("Starting Production Sever")
+    win.loadFile(join(currentDir, '../renderer/index.html'));
   }
 }
 
-app.whenReady().then(() => {
+// Listen for messages from the UI and call core functions
+ipcMain.handle('get-favorites', async () => {
+  console.log('get-favorites called');
+  return await getFavorites();
+});
+
+app.whenReady().then(async () => {
   createWindow();
 
   startWallpaperService();
-
-  // Listen for messages from the UI and call core functions
-  ipcMain.handle('get-favorites', async () => {
-    return await getFavorites();
-  });
 
   ipcMain.handle('get-history', async () => {
     return await getHistory();

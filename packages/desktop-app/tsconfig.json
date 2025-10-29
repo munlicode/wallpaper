@@ -3,11 +3,12 @@
   "compilerOptions": {
     "outDir": "./dist",
     "composite": true,
-    "rootDir": "src"
+    "rootDir": "src",
+    "declaration": true,
+    "sourceMap": true,
   },
   "include": [
-    "src",
-    "electron.vite.config.ts"
+    "src"
   ],
   "references": [
     {

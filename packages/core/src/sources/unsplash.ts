@@ -2,17 +2,17 @@ import { ISource, Wallpaper } from '../types.js';
 import axios from 'axios';
 const UNSPLASH_API_KEY = process.env.UNSPLASH_API_KEY;
 
-if (!UNSPLASH_API_KEY) {
-  console.error(
-    'FATAL ERROR: UNSPLASH_API_KEY is not set in your .env file.'
-  );
-  throw new Error('FATAL ERROR: UNSPLASH_API_KEY is not set in your .env file.');
-}
 
 export class UnsplashSource implements ISource {
   public name = 'unsplash';
 
   async getWallpaper(query: string): Promise<Wallpaper> {
+    if (!UNSPLASH_API_KEY) {
+      console.error(
+        'FATAL ERROR: UNSPLASH_API_KEY is not set in your .env file.'
+      );
+      throw new Error('FATAL ERROR: UNSPLASH_API_KEY is not set in your .env file.');
+    }
     console.log(`UnsplashSource: Fetching '${query}'`);
 
     const response = await axios.get('https://api.unsplash.com/photos/random', {

@@ -1,5 +1,4 @@
 import { defineConfig } from 'electron-vite';
-import { resolve } from 'path';
 
 export default defineConfig({
   main: {
@@ -15,6 +14,7 @@ export default defineConfig({
       outDir: 'out/preload',
       lib: {
         entry: 'src/preload/index.ts',
+        formats: ['cjs'],
       }
     },
   },
