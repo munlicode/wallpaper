@@ -13,7 +13,9 @@ type MockWallpaper = {
     regular: string;
     small: string;
   };
-  source: string
+  source: string,
+  width: number,
+  height: number
 };
 
 type MockAppData = {
@@ -53,7 +55,9 @@ const wall1: MockWallpaper = {
     regular: 'url1.jpg',
     small: 'url1.jpg'
   },
-  source: 'source-A'
+  source: 'source-A',
+  width: 0,
+  height: 0
 };
 
 const wall2: MockWallpaper = {
@@ -64,7 +68,9 @@ const wall2: MockWallpaper = {
     regular: 'url2.jpg',
     small: 'url2.jpg'
   },
-  source: 'source-B'
+  source: 'source-B',
+  width: 0,
+  height: 0
 };
 
 const wall3: MockWallpaper = {
@@ -75,7 +81,9 @@ const wall3: MockWallpaper = {
     regular: 'url3.jpg',
     small: 'url3.jpg'
   },
-  source: 'source-A'
+  source: 'source-A',
+  width: 0,
+  height: 0
 };
 
 const wall4: MockWallpaper = {
@@ -86,7 +94,9 @@ const wall4: MockWallpaper = {
     regular: 'url4.jpg',
     small: 'url4.jpg'
   },
-  source: 'source-C'
+  source: 'source-C',
+  width: 0,
+  height: 0
 };
 // --- Test Suite ---
 describe('Database Service', () => {
@@ -145,7 +155,7 @@ describe('Database Service', () => {
 
   describe('Favorites', () => {
     it('should add a favorite', async () => {
-      await db.addFavorite(wall1);
+      await db.addFavorite(wall1.id);
       expect(mockDbState.favorites).toEqual([wall1]);
       expectDbReadAndWrite(1, 1);
     });
@@ -177,7 +187,7 @@ describe('Database Service', () => {
 
   describe('Bookmarks', () => {
     it('should add a bookmark', async () => {
-      await db.addBookmark(wall1);
+      await db.addBookmark(wall1.id);
       expect(mockDbState.bookmarks).toEqual([wall1]);
       expectDbReadAndWrite(1, 1);
     });
@@ -264,6 +274,52 @@ describe('Database Service', () => {
       await db.clearHistory();
       expect(mockDbState.history).toEqual([]);
       expectDbReadAndWrite(1, 1);
+    });
+  });
+
+  describe("getCurrentWallpaper", () => {
+    it("should return null when history is empty", async () => {
+      const current = await db.getCurrentWallpaper();
+      expect(current).toBeNull();
+    });
+
+    it("should return the most recently added wallpaper", async () => {
+      const w1: Wallpaper = {
+        id: "1",
+        source: "unsplash",
+        author: "Alice",
+        urls: { full: "https://example.com/1.jpg" },
+      } as Wallpaper;
+
+      const w2: Wallpaper = {
+        id: "2",
+        source: "unsplash",
+        author: "Bob",
+        urls: { full: "https://example.com/2.jpg" },
+      } as Wallpaper;
+
+      await db.addToHistory(w1);
+      await db.addToHistory(w2);
+
+      const current = await db.getCurrentWallpaper();
+      expect(current).toEqual(w2);
+    });
+
+    it("should update when a duplicate wallpaper is re-added", async () => {
+      const w1: Wallpaper = {
+        id: "1",
+        source: "unsplash",
+        author: "Alice",
+        urls: { full: "https://example.com/1.jpg" },
+      } as Wallpaper;
+
+      await db.addToHistory(w1);
+      await db.addToHistory(w1); // re-added
+
+      expect(mockDbInstance.data?.history.length).toBe(1);
+
+      const current = await db.getCurrentWallpaper();
+      expect(current).toEqual(w1);
     });
   });
 });

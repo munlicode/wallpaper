@@ -5,8 +5,7 @@ import { UnsplashSource } from './unsplash.js';
 import { NekosSource } from './nekos.js';
 
 // 1. Create a "registry" to hold all our available sources
-const sourceRegistry = new Map<string, ISource>();
-
+export const sourceRegistry = new Map<string, ISource>();
 /**
  * Call this function to register a new source.
  */

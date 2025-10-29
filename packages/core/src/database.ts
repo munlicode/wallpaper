@@ -1,57 +1,7 @@
-import { join, dirname } from 'path';
-import { promises as fs } from 'fs';
-import { Low } from 'lowdb';
-import { JSONFile } from 'lowdb/node';
-import { AppData, Wallpaper } from './types.js';
-import { getDataPath, getHistoryLength } from './config.js';
+import { Wallpaper } from './types.js';
+import { getDb, getHistoryLength } from './config.js';
 
-// Define the default structure for a new database
-const defaultData: AppData = {
-  favorites: [],
-  history: [],
-  bookmarks: [],
-};
 
-let db: Low<AppData> | null = null;
-
-/**
- * Ensures the database is loaded from the file.
- * Call this before any db operation.
- */
-async function getDb() {
-  // Only initialize the db on the *first call*
-  if (db === null) {
-    // By the time this code runs, your test mocks ARE active.
-    // getDataPath() will be the mock function.
-    const dataPath = getDataPath();
-    const dbPath = join(dataPath, 'db.json');
-    const dbDir = dirname(dbPath); // Get the directory path
-
-    // --- Added Logic ---
-    // Ensure the directory exists before trying to read/write the file
-    // { recursive: true } creates parent directories if needed
-    // and doesn't throw an error if the directory already exists.
-    try {
-      await fs.mkdir(dbDir, { recursive: true });
-    } catch (e) {
-      console.error('Failed to create database directory:', e);
-      // Depending on your app, you might want to re-throw the error
-      // throw e;
-    }
-    // --- End Added Logic ---
-
-    const adapter = new JSONFile<AppData>(dbPath);
-
-    // new Low() will be the mock constructor.
-    db = new Low(adapter, defaultData);
-  }
-
-  // This will read the file. If the file doesn't exist,
-  // db.data will be populated with defaultData.
-  await db.read();
-
-  return db;
-}
 export async function addFavorite(id: string): Promise<Wallpaper> {
   const db = await getDb();
 
@@ -185,4 +135,19 @@ export async function clearHistory(): Promise<void> {
   const db = await getDb();
   db.data.history = [];
   await db.write();
+}
+
+/**
+ * Fetches the most recent Wallpaper
+ */
+export async function getCurrentWallpaper(): Promise<Wallpaper | null> {
+  const db = await getDb();
+  const history = db.data.history;
+
+  if (!history || history.length === 0) {
+    return null;
+  }
+
+  // The most recently added wallpaper is the current one
+  return history[0];
 }

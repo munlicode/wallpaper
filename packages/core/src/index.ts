@@ -15,7 +15,10 @@ export {
   addToHistory,
   getHistory,
   clearHistory,
+  getCurrentWallpaper
 } from './database.js';
+export { sourceRegistry } from './sources/index.js';
+export { setCustomDataPath, getDataPath, getSettings, getSetting, setSetting, settingsMeta, getDefaultSettings, type Settings } from './config.js';
 
 import { addToHistory } from './database.js';
 import { getScreenResolution, selectOptimalUrl } from './resolution.js';
@@ -185,6 +188,7 @@ export async function setWallpaperFromList(
     console.log('Setting wallpaper...');
     await setWallpaper(FINAL_WALLPAPER_PATH);
 
+    await addToHistory(wallpaper);
     console.log(`✅ Successfully set wallpaper ${id} from ${listName}.`);
     console.log(`   Source: ${wallpaper.source || 'Unknown'}`);
 
