@@ -27,30 +27,34 @@ export const BookmarksCommand = {
           );
         }
       )
+
       .command(
-        'add <id> or current',
-        'Add a wallpaper from history to bookmarks',
-        (yargs: any) => yargs.positional('id', { type: 'string', describe: 'The ID of the wallpaper', demandOption: true }),
+        "add <id>",
+        "Add a wallpaper from history to bookmarks (use 'current' to add current wallpaper)",
+        (yargs: any) =>
+          yargs.positional("id", {
+            type: "string",
+            describe: "The ID of the wallpaper, or 'current' to use the current wallpaper",
+          }),
         async (argv: any) => {
           try {
-            let id
+            let id = argv.id;
             let wallpaper;
 
-            if (argv.id === "current") {
+            if (id === "current") {
               wallpaper = await getCurrentWallpaper();
-              id = wallpaper?.id
-            } else {
-              id = argv.id
+              if (!wallpaper || !wallpaper.id) {
+                throw new Error("No current wallpaper found or wallpaper has no ID.");
+              }
+              id = wallpaper.id;
             }
             wallpaper = await addBookmark(id);
 
             console.log(`Added ${wallpaper.id} to bookmarks.`);
           } catch (err) {
-            if (err instanceof Error) {
-              console.error(`❌ Error: ${err.message}`);
-            } else {
-              console.error('❌ An unknown error occurred:', err);
-            }
+            console.error(
+              `❌ Error: ${err instanceof Error ? err.message : String(err)}`
+            );
           }
         }
       )
@@ -67,7 +71,7 @@ export const BookmarksCommand = {
       .demandCommand(1, 'You must provide an action for bookmarks (list, add, remove).'),
 
   handler: (argv: any) => {
-    // Runs if user just types "favorites" without a subcommand
+    // Runs if user just types "bookmarks" without a subcommand
     console.log(`Unknown action: ${argv.action}`);
     console.log("Try one of: list, add <id>, remove <id>");
   },

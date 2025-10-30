@@ -31,33 +31,32 @@ export const FavoritesCommand = {
       )
 
       .command(
-        "add <id> or current",
-        "Add a wallpaper from history to favorites",
+        "add <id>",
+        "Add a wallpaper from history to favorites (use 'current' to add current wallpaper)",
         (yargs: any) =>
           yargs.positional("id", {
             type: "string",
-            describe: "The ID of the wallpaper",
-            demandOption: true,
+            describe: "The ID of the wallpaper, or 'current' to use the current wallpaper",
           }),
         async (argv: any) => {
           try {
-            let id
+            let id = argv.id;
             let wallpaper;
 
-            if (argv.id === "current") {
+            if (id === "current") {
               wallpaper = await getCurrentWallpaper();
-              id = wallpaper?.id
-            } else {
-              id = argv.id
+              if (!wallpaper || !wallpaper.id) {
+                throw new Error("No current wallpaper found or wallpaper has no ID.");
+              }
+              id = wallpaper.id;
             }
-            wallpaper = await addFavorite(id);
-            console.log(`✅ Added "${wallpaper.id}" to favorites.`);
+
+            const added = await addFavorite(id);
+            console.log(`✅ Added "${added.id}" to favorites.`);
           } catch (err) {
-            if (err instanceof Error) {
-              console.error(`❌ Error: ${err.message}`);
-            } else {
-              console.error("❌ An unknown error occurred:", err);
-            }
+            console.error(
+              `❌ Error: ${err instanceof Error ? err.message : String(err)}`
+            );
           }
         }
       )
