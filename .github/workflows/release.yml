@@ -2,8 +2,6 @@ name: Build and Release Monorepo
 
 on:
   push:
-    branches:
-      - main
     tags:
       - "v*.*.*" # triggers on semantic version tags like v1.0.0
 
