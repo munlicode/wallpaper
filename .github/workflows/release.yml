@@ -73,7 +73,5 @@ jobs:
         with:
           tag: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-          files: |
-            packages/core/dist/**
-            packages/desktop-app/release/**
-            packages/cli/dist/**
+          artifacts: all-artifacts
+          token: ${{ secrets.GITHUB_TOKEN }}
