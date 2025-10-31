@@ -5,7 +5,7 @@ on:
     branches:
       - main
     tags:
-      - "v*.*.*"
+      - "v*.*.*" # triggers on semantic version tags like v1.0.0
 
 jobs:
   build-and-release:
@@ -26,24 +26,48 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # ------------------------------
+      # Build Core package
+      # ------------------------------
       - name: Build Core Package
         run: pnpm --filter core run build
 
+      # ------------------------------
+      # Build Desktop App
+      # ------------------------------
       - name: Build Desktop App
+        run: pnpm --filter desktop-app run build
+
+      - name: List Desktop App dist for debugging
+        run: ls -R packages/desktop-app/dist
+
+      - name: Package Desktop App
         run: pnpm --filter desktop-app run dist
 
+      # ------------------------------
+      # Build CLI
+      # ------------------------------
       - name: Build CLI
+        run: pnpm --filter cli run build
+
+      - name: Package CLI
         run: pnpm --filter cli run dist
 
+      # ------------------------------
+      # Upload Artifacts
+      # ------------------------------
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: all-artifacts
           path: |
             packages/core/dist/**
-            packages/desktop-app/dist/**
+            packages/desktop-app/release/**   # electron-builder output folder
             packages/cli/dist/**
 
+      # ------------------------------
+      # Create GitHub Release
+      # ------------------------------
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
@@ -51,5 +75,5 @@ jobs:
           name: Release ${{ github.ref_name }}
           files: |
             packages/core/dist/**
-            packages/desktop-app/dist/**
+            packages/desktop-app/release/**
             packages/cli/dist/**
