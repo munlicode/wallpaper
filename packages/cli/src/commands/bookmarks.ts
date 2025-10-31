@@ -1,5 +1,6 @@
 import { addBookmark, getBookmarks, getCurrentWallpaper, removeBookmark } from "@wallpaper/core";
 import type { Wallpaper } from "@wallpaper/core";
+import { handleAddAction } from "../helpers.js";
 
 export const BookmarksCommand = {
   command: "bookmarks <action>",
@@ -27,34 +28,23 @@ export const BookmarksCommand = {
           );
         }
       )
+
       .command(
-        'add <id> or current',
-        'Add a wallpaper from history to bookmarks',
-        (yargs: any) => yargs.positional('id', { type: 'string', describe: 'The ID of the wallpaper', demandOption: true }),
+        "add <id>",
+        "Add a wallpaper from history to bookmarks (use 'current' to add current wallpaper)",
+        (yargs: any) =>
+          yargs.positional("id", {
+            type: "string",
+            describe: "The ID of the wallpaper, or 'current' to use the current wallpaper",
+          }),
         async (argv: any) => {
-          try {
-            let id
-            let wallpaper;
-
-            if (argv.id === "current") {
-              wallpaper = await getCurrentWallpaper();
-              id = wallpaper?.id
-            } else {
-              id = argv.id
-            }
-            wallpaper = await addBookmark(id);
-
-            console.log(`Added ${wallpaper.id} to bookmarks.`);
-          } catch (err) {
-            if (err instanceof Error) {
-              console.error(`❌ Error: ${err.message}`);
-            } else {
-              console.error('❌ An unknown error occurred:', err);
-            }
-          }
+          await handleAddAction(
+            argv.id,
+            addBookmark,
+            "Added to bookmarks"
+          );
         }
       )
-
       .command(
         'remove <id>',
         'Remove a wallpaper from bookmarks',
@@ -67,7 +57,7 @@ export const BookmarksCommand = {
       .demandCommand(1, 'You must provide an action for bookmarks (list, add, remove).'),
 
   handler: (argv: any) => {
-    // Runs if user just types "favorites" without a subcommand
+    // Runs if user just types "bookmarks" without a subcommand
     console.log(`Unknown action: ${argv.action}`);
     console.log("Try one of: list, add <id>, remove <id>");
   },

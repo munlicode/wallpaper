@@ -15,12 +15,18 @@ export {
   addToHistory,
   getHistory,
   clearHistory,
-  getCurrentWallpaper
+  getCurrentWallpaper,
+  deleteHistoryById,
 } from './database.js';
 export { sourceRegistry } from './sources/index.js';
 export { setCustomDataPath, getDataPath, getSettings, getSetting, setSetting, settingsMeta, getDefaultSettings, type Settings } from './config.js';
+export {
+  startWallpaperService,
+  stopWallpaperService,
+  restartWallpaperService
+} from './scheduler.js';
 
-import { addToHistory } from './database.js';
+import { addToHistory, getBookmarks, getFavorites, getHistory } from './database.js';
 import { getScreenResolution, selectOptimalUrl } from './resolution.js';
 import { resolveWallpaper } from './sources/index.js';
 import { downloadImage, setWallpaper } from './system.js';
@@ -141,7 +147,7 @@ export async function getAndSetWallpaper(query: FetchQuery) {
   if (!wallpaper || !finalLocalPath) {
     throw new Error(`Failed to find a wallpaper with suitable resolution after ${MAX_ATTEMPTS} attempts.`);
   }
-  console.log(finalLocalPath)
+
   // 8. Set the wallpaper and save to history
   await setWallpaper(finalLocalPath);
   await addToHistory(wallpaper);
@@ -195,4 +201,35 @@ export async function setWallpaperFromList(
   } catch (err) {
     console.error(`Failed to download or set wallpaper ${id}.`, err);
   }
+}
+/**
+ * Get random Wallpaper from selected mode
+ * @param mode 
+ * @returns 
+ */
+export async function randomWallpaper(mode: string) {
+  const sources = {
+    favorites: await getFavorites(),
+    history: await getHistory(),
+    bookmarks: await getBookmarks(),
+  };
+
+  let wallpapers: Wallpaper[] = [];
+
+  if (mode === 'favorites') wallpapers = sources.favorites;
+  else if (mode === 'history') wallpapers = sources.history;
+  else if (mode === 'bookmarks') wallpapers = sources.bookmarks;
+  else wallpapers = [...sources.favorites, ...sources.history, ...sources.bookmarks];
+
+  // Remove duplicates — assuming paths are unique
+  const unique = Array.from(new Set(wallpapers));
+
+  if (unique.length === 0) {
+    console.log('No wallpapers found in this category.');
+    return;
+  }
+
+  const random = unique[Math.floor(Math.random() * unique.length)];
+  await setWallpaperFromList(random.id, wallpapers, mode);
+  console.log(`🎨 Wallpaper set: ${random.id}`);
 }

@@ -1,5 +1,6 @@
 import { getFavorites, addFavorite, removeFavorite, getCurrentWallpaper } from "@wallpaper/core";
 import type { Wallpaper } from "@wallpaper/core";
+import { handleAddAction } from "../helpers.js";
 
 export const FavoritesCommand = {
   command: "favorites <action>",
@@ -31,37 +32,22 @@ export const FavoritesCommand = {
       )
 
       .command(
-        "add <id> or current",
-        "Add a wallpaper from history to favorites",
+        "add <id>",
+        "Add a wallpaper from history to favorites (use 'current' to add current wallpaper)",
         (yargs: any) =>
           yargs.positional("id", {
             type: "string",
-            describe: "The ID of the wallpaper",
-            demandOption: true,
+            describe: "The ID of the wallpaper, or 'current' to use the current wallpaper",
           }),
         async (argv: any) => {
-          try {
-            let id
-            let wallpaper;
-
-            if (argv.id === "current") {
-              wallpaper = await getCurrentWallpaper();
-              id = wallpaper?.id
-            } else {
-              id = argv.id
-            }
-            wallpaper = await addFavorite(id);
-            console.log(`✅ Added "${wallpaper.id}" to favorites.`);
-          } catch (err) {
-            if (err instanceof Error) {
-              console.error(`❌ Error: ${err.message}`);
-            } else {
-              console.error("❌ An unknown error occurred:", err);
-            }
-          }
+          // One line of execution!
+          await handleAddAction(
+            argv.id,
+            addFavorite,
+            "Added to favorites"
+          );
         }
       )
-
       .command(
         "remove <id>",
         "Remove a wallpaper from favorites",

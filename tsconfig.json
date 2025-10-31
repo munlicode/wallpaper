@@ -6,7 +6,9 @@
     },
     {
       "path": "packages/cli"
+    },
+    {
+      "path": "packages/desktop-app"
     }
-    // Add paths to any other packages, like "packages/desktop-app"
   ]
 }
