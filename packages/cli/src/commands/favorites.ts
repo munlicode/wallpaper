@@ -1,5 +1,6 @@
 import { getFavorites, addFavorite, removeFavorite, getCurrentWallpaper } from "@wallpaper/core";
 import type { Wallpaper } from "@wallpaper/core";
+import { handleAddAction } from "../helpers.js";
 
 export const FavoritesCommand = {
   command: "favorites <action>",
@@ -39,28 +40,14 @@ export const FavoritesCommand = {
             describe: "The ID of the wallpaper, or 'current' to use the current wallpaper",
           }),
         async (argv: any) => {
-          try {
-            let id = argv.id;
-            let wallpaper;
-
-            if (id === "current") {
-              wallpaper = await getCurrentWallpaper();
-              if (!wallpaper || !wallpaper.id) {
-                throw new Error("No current wallpaper found or wallpaper has no ID.");
-              }
-              id = wallpaper.id;
-            }
-
-            const added = await addFavorite(id);
-            console.log(`✅ Added "${added.id}" to favorites.`);
-          } catch (err) {
-            console.error(
-              `❌ Error: ${err instanceof Error ? err.message : String(err)}`
-            );
-          }
+          // One line of execution!
+          await handleAddAction(
+            argv.id,
+            addFavorite,
+            "Added to favorites"
+          );
         }
       )
-
       .command(
         "remove <id>",
         "Remove a wallpaper from favorites",

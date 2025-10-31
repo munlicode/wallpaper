@@ -15,7 +15,8 @@ export {
   addToHistory,
   getHistory,
   clearHistory,
-  getCurrentWallpaper
+  getCurrentWallpaper,
+  deleteHistoryById,
 } from './database.js';
 export { sourceRegistry } from './sources/index.js';
 export { setCustomDataPath, getDataPath, getSettings, getSetting, setSetting, settingsMeta, getDefaultSettings, type Settings } from './config.js';
@@ -146,7 +147,7 @@ export async function getAndSetWallpaper(query: FetchQuery) {
   if (!wallpaper || !finalLocalPath) {
     throw new Error(`Failed to find a wallpaper with suitable resolution after ${MAX_ATTEMPTS} attempts.`);
   }
-  console.log(finalLocalPath)
+
   // 8. Set the wallpaper and save to history
   await setWallpaper(finalLocalPath);
   await addToHistory(wallpaper);

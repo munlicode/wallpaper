@@ -1,30 +1,53 @@
 import { defineConfig } from 'electron-vite';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   main: {
     build: {
-      outDir: 'out/main',
-      lib: {
-        entry: 'src/main/index.ts',
-      }
+      outDir: 'dist/main',
+      rollupOptions: {
+        external: [
+          'sharp',
+          'electron',
+          'path',
+          'fs',
+        ],
+        input: 'src/main/index.ts',
+        output: {
+          format: 'cjs',
+          entryFileNames: 'index.js',
+        },
+      },
     },
   },
+
   preload: {
     build: {
-      outDir: 'out/preload',
-      lib: {
-        entry: 'src/preload/index.ts',
-        formats: ['cjs'],
-      }
+      outDir: 'dist/preload',
+      rollupOptions: {
+        input: 'src/preload/index.ts',
+        output: {
+          format: 'cjs',
+          entryFileNames: 'index.js',
+        },
+      },
     },
   },
+
   renderer: {
+    server: {
+      port: 5173,
+      strictPort: true,
+    },
+    plugins: [
+      react()
+    ],
     root: 'src/renderer',
     build: {
-      outDir: 'out/renderer',
+      outDir: 'dist/renderer',
       rollupOptions: {
         input: 'src/renderer/index.html',
       },
     },
-  }
+  },
 });

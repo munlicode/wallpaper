@@ -1,44 +1,34 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection:', reason);
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+});
+
+import { app, BrowserWindow } from 'electron';
 import * as dotenv from 'dotenv';
 import {
   startWallpaperService,
-  addFavorite,
-  getFavorites,
-  removeFavorite,
-  isFavorite,
-  addBookmark,
-  getBookmarks,
-  removeBookmark,
-  isBookmarked,
-  addToHistory,
-  getHistory,
-  clearHistory,
-  sourceRegistry,
-  setCustomDataPath,
-  getDataPath,
-  getSettings,
-  getSetting,
-  setSetting,
-  settingsMeta,
-  getDefaultSettings,
-  type Settings,
 } from '@wallpaper/core';
+import { registerIPCHandlers } from './handlers/index.js';
+import { createMenu } from './menu.js';
+import path from 'path';
 
-const currentFile = fileURLToPath(import.meta.url);
-const currentDir = dirname(currentFile);
-const projectRoot = join(currentDir, '../../../../');
+const currentDir = __dirname;
+const projectRoot = path.join(currentDir, '../../../../');
 
-dotenv.config({ path: join(projectRoot, '.env') });
+
+dotenv.config({ path: path.join(projectRoot, '.env') });
+const preloadPath = path.join(__dirname, '../preload/index.js');
+
 function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 800,
     webPreferences: {
-      preload: join(currentDir, '../preload/index.js'),
-      contextIsolation: true,
-      nodeIntegration: false,
+      preload: preloadPath,
+      sandbox: false
     },
   });
   if (process.env.NODE_ENV === 'development') {
@@ -46,26 +36,18 @@ function createWindow() {
     win.loadURL(process.env.VITE_DEV_SERVER_URL!);
   } else {
     console.info("Starting Production Sever")
-    win.loadFile(join(currentDir, '../renderer/index.html'));
+    win.loadFile(path.join(currentDir, '../renderer/index.html'));
   }
 }
 
-// Listen for messages from the UI and call core functions
-ipcMain.handle('get-favorites', async () => {
-  console.log('get-favorites called');
-  return await getFavorites();
-});
 
 app.whenReady().then(async () => {
   createWindow();
 
+  createMenu();
   startWallpaperService();
 
-  ipcMain.handle('get-history', async () => {
-    return await getHistory();
-  });
-
-  //TODO:  ... create more handlers for addFavorite, etc.
+  registerIPCHandlers();
 });
 
 // Quit when all windows are closed

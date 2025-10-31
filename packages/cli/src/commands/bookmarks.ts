@@ -1,5 +1,6 @@
 import { addBookmark, getBookmarks, getCurrentWallpaper, removeBookmark } from "@wallpaper/core";
 import type { Wallpaper } from "@wallpaper/core";
+import { handleAddAction } from "../helpers.js";
 
 export const BookmarksCommand = {
   command: "bookmarks <action>",
@@ -37,28 +38,13 @@ export const BookmarksCommand = {
             describe: "The ID of the wallpaper, or 'current' to use the current wallpaper",
           }),
         async (argv: any) => {
-          try {
-            let id = argv.id;
-            let wallpaper;
-
-            if (id === "current") {
-              wallpaper = await getCurrentWallpaper();
-              if (!wallpaper || !wallpaper.id) {
-                throw new Error("No current wallpaper found or wallpaper has no ID.");
-              }
-              id = wallpaper.id;
-            }
-            wallpaper = await addBookmark(id);
-
-            console.log(`Added ${wallpaper.id} to bookmarks.`);
-          } catch (err) {
-            console.error(
-              `❌ Error: ${err instanceof Error ? err.message : String(err)}`
-            );
-          }
+          await handleAddAction(
+            argv.id,
+            addBookmark,
+            "Added to bookmarks"
+          );
         }
       )
-
       .command(
         'remove <id>',
         'Remove a wallpaper from bookmarks',

@@ -1,6 +1,7 @@
-import { getAndSetWallpaper } from "@wallpaper/core";
+import { getAndSetWallpaper, getSetting } from "@wallpaper/core";
 import type { FetchQuery } from "@wallpaper/core";
 
+const defaultSource = getSetting('defaultSource')
 
 export const MainCommand = {
   command: "$0 [query]",
@@ -16,7 +17,7 @@ export const MainCommand = {
         alias: "s",
         type: "string",
         describe: "The source to fetch from",
-        default: "nekos",
+        default: defaultSource,
         choices: availableSources,
       }),
 

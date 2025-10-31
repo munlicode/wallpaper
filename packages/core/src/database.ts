@@ -129,6 +129,21 @@ export async function getHistory(): Promise<Wallpaper[]> {
 }
 
 /**
+ * Deletes a specific item from history by its ID.
+ */
+export async function deleteHistoryById(id: string): Promise<void> {
+  const db = await getDb();
+
+  if (!db.data.history) {
+    db.data.history = [];
+  }
+
+  db.data.history = db.data.history.filter((item: { id: string }) => item.id !== id);
+
+  await db.write();
+}
+
+/**
  * Clears all items from the history.
  */
 export async function clearHistory(): Promise<void> {

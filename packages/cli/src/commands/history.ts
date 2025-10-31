@@ -1,4 +1,4 @@
-import { clearHistory, getHistory } from "@wallpaper/core";
+import { clearHistory, deleteHistoryById, getHistory } from "@wallpaper/core";
 import type { Wallpaper } from "@wallpaper/core";
 
 export const HistoryCommand = {
@@ -27,7 +27,21 @@ export const HistoryCommand = {
           );
         }
       )
-
+      .command(
+        'delete <id>',
+        'Delete wallpaper from history',
+        (yargs: any) =>
+          yargs.positional("id", {
+            type: "string",
+            describe: "The ID of the wallpaper.",
+          }),
+        async (argv: any) => {
+          await deleteHistoryById(
+            argv.id,
+          );
+          console.log(`Wallpaper with id ${argv.id} was deleted from history.`);
+        }
+      )
       .command(
         'clear',
         'Clear all wallpaper history',

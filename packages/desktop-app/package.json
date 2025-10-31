@@ -2,11 +2,16 @@
   "name": "@wallpaper/desktop-app",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "main": "dist/main/index.js",
   "scripts": {
     "build": "electron-vite build",
-    "dev": "VITE_DEV_SERVER_URL=http://localhost:5173/ electron-vite dev --watch"
+    "dev:renderer": "vite",
+    "dev:electron": "cross-env NODE_OPTIONS='--trace-warnings --unhandled-rejections=strict' electron-vite dev --watch",
+    "dev-": "VITE_DEV_SERVER_URL=http://localhost:5173 electron-vite dev --watch",
+    "start:electron-dev": "pnpm run dev:renderer & sleep 2 && pnpm exec wait-on http://localhost:5173 && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron-vite dev --watch",
+    "dev--": "concurrently -k -n VITE,ELECTRON \"vite\" \"pnpm run start:electron\"",
+    "dev": "cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron-vite dev --watch",
+    "start:electron": "wait-on tcp:5173 && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron-vite dev --watch"
   },
   "dependencies": {
     "@wallpaper/core": "workspace:*",

@@ -6,6 +6,8 @@ import fsp from "fs/promises";
 import { Low } from 'lowdb';
 import { JSONFile } from 'lowdb/node';
 import { AppData, FetchQuery } from './types.js';
+import { sourceRegistry } from './sources/index.js';
+import { restartWallpaperService } from './scheduler.js';
 
 export interface Settings {
   dataPath: string;
@@ -22,7 +24,7 @@ const defaults: Settings = {
   defaultSource: 'nekos',
   historyLength: 50,
   autoChangeInterval: 0,
-  autoChangeQuery: { source: 'unsplash', query: 'random' },
+  autoChangeQuery: { source: 'nekos', query: 'random' },
   imageQuality: 'auto',
 };
 interface SettingMetaBase {
@@ -45,6 +47,7 @@ export const settingsMeta: Record<keyof Settings, SettingMeta> = {
   defaultSource: {
     description: 'Default image source to fetch wallpapers from',
     type: 'string',
+    choices: Array.from(sourceRegistry.keys())
   },
   historyLength: {
     description: 'Maximum number of wallpapers to keep in history',
@@ -187,6 +190,7 @@ export function getSetting<K extends keyof Settings>(key: K): Settings[K] {
 
 export function setSetting<K extends keyof Settings>(key: K, value: Settings[K]): void {
   config.set(key, value)
+  restartWallpaperService();
 }
 
 export function getHistoryLength(): number {

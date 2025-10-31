@@ -20,7 +20,6 @@ const tempImagePath = join(dataPath, 'current.jpg');
  * Downloads an image from a URL to a *specific* local file path.
  */
 export async function downloadImage(url: string, destinationPath: string): Promise<string> {
-  console.log(url);
   const response = await axios.get(url, { responseType: 'stream' });
 
   // Save the file to the *provided* path

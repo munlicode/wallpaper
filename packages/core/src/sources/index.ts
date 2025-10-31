@@ -3,6 +3,7 @@ import { FetchQuery, ISource, Wallpaper } from '../types.js';
 import { LocalSource } from './local.js';
 import { UnsplashSource } from './unsplash.js';
 import { NekosSource } from './nekos.js';
+import { sourceMapsEnabled } from 'process';
 
 // 1. Create a "registry" to hold all our available sources
 export const sourceRegistry = new Map<string, ISource>();
@@ -24,22 +25,21 @@ registerSource(new NekosSource());
  * This REPLACES your old function. It's much cleaner.
  * It takes a FetchQuery and finds the right source to handle it.
  */
-export async function resolveWallpaper(query: FetchQuery): Promise<Wallpaper> {
-  let sourceName = query.source;
-
-  // If source is 'random', 'mood', etc., use the default source
-  // from config.
-  if (['random', 'mood'].includes(sourceName)) {
-    query.query = sourceName === 'random' ? 'random' : query.query;
-    sourceName = config.get('defaultSource');
+export async function resolveWallpaper(query: string | FetchQuery): Promise<Wallpaper> {
+  if (typeof query === "string") {
+    try {
+      query = JSON.parse(query) as FetchQuery;
+    } catch (err) {
+      throw new Error(`Failed to parse query JSON: ${err}`);
+    }
   }
 
+  const sourceName = query.source;
   const source = sourceRegistry.get(sourceName);
 
   if (!source) {
     throw new Error(`Wallpaper source "${sourceName}" is not registered.`);
   }
 
-  // 3. "Delegate" the work to the specific source
   return source.getWallpaper(query.query);
 }
