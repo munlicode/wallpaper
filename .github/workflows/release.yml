@@ -1,11 +1,11 @@
-name: Build and Release Electron App
+name: Build and Release Monorepo
 
 on:
   push:
     branches:
-      - main # only run on main
+      - main
     tags:
-      - "v*.*.*" # only version tags like v1.0.0
+      - "v*.*.*"
 
 jobs:
   build-and-release:
@@ -24,20 +24,32 @@ jobs:
         run: npm install -g pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
-      - name: Build Electron App
-        run: pnpm run dist # assumes "dist" script is set in package.json
+      - name: Build Core Package
+        run: pnpm --filter core run build
+
+      - name: Build Desktop App
+        run: pnpm --filter desktop-app run dist
+
+      - name: Build CLI
+        run: pnpm --filter cli run dist
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: electron-artifacts
-          path: dist/**/*
+          name: all-artifacts
+          path: |
+            packages/core/dist/**
+            packages/desktop-app/dist/**
+            packages/cli/dist/**
 
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-          files: dist/**/* # attach all build files
+          files: |
+            packages/core/dist/**
+            packages/desktop-app/dist/**
+            packages/cli/dist/**
