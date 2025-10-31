@@ -55,19 +55,26 @@ jobs:
         run: pnpm --filter cli run dist
 
       # ------------------------------
-      # Upload Artifacts
+      # Compress Artifacts for Release
+      # ------------------------------
+      - name: Compress artifacts
+        run: |
+          mkdir -p artifacts
+          zip -r artifacts/core.zip packages/core/dist
+          zip -r artifacts/desktop-app.zip packages/desktop-app/release
+          zip -r artifacts/cli.zip packages/cli/dist
+
+      # ------------------------------
+      # Upload Artifacts (for debugging)
       # ------------------------------
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: all-artifacts
-          path: |
-            packages/core/dist/**
-            packages/desktop-app/release/**   # electron-builder output folder
-            packages/cli/dist/**
+          path: artifacts/*.zip
 
       # ------------------------------
-      # Download Package Artifacts
+      # Download Package Artifacts (optional)
       # ------------------------------
       - name: Download Artifacts
         uses: actions/download-artifact@v4
@@ -83,6 +90,7 @@ jobs:
         with:
           tag: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-          artifacts: all-artifacts/**
+          artifacts: all-artifacts/*.zip
           token: ${{ secrets.GITHUB_TOKEN }}
           generateReleaseNotes: false
+          replacesArtifacts: true
