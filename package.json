@@ -10,13 +10,15 @@
     "build": "tsc --build",
     "dev:cli": "pnpm --filter @wallpaper/cli dev",
     "dev:desktop": "pnpm --filter @wallpaper/desktop-app dev",
-    "test": "NODE_OPTIONS=--experimental-vm-modules pnpm jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules pnpm jest",
+    "dist": "electron-builder --linux AppImage --win nsis --mac dmg"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "@types/node": "^20.12.12",
     "@types/wallpaper": "^2.5.1",
     "@types/yargs": "^17.0.34",
+    "electron-builder": "^26.0.12",
     "jest": "^30.2.0",
     "ts-jest": "^29.4.5",
     "typescript": "^5.9.3"
