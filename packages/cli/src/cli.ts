@@ -15,6 +15,7 @@ import { BookmarksCommand } from './commands/bookmarks.js';
 import { HistoryCommand } from './commands/history.js';
 import { SetCommand } from './commands/set.js';
 import { MainCommand } from './commands/main.js';
+import { RandomCommand } from './commands/random.js';
 const availableSources = Array.from(sourceRegistry.keys());
 
 yargs(hideBin(process.argv))
@@ -32,8 +33,10 @@ yargs(hideBin(process.argv))
 
   // A command group for 'history'
   .command(HistoryCommand)
+
   .command(SetCommand)
   .command(configCommand)
+  .command(RandomCommand)
 
   .demandCommand(1, 'Please provide a command or run without args to fetch a wallpaper.')
   .strict() // Show an error for unknown commands or options

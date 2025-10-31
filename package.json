@@ -10,21 +10,33 @@
     "build": "tsc --build",
     "dev:cli": "pnpm --filter @wallpaper/cli dev",
     "dev:desktop": "pnpm --filter @wallpaper/desktop-app dev",
+    "dev:deskt": "pnpm --filter @wallpaper/desktop-app dev-",
     "test": "NODE_OPTIONS=--experimental-vm-modules pnpm jest",
-    "dist": "electron-builder --linux AppImage --win nsis --mac dmg"
+    "clean": "rimraf packages/*/dist packages/*/tsconfig.tsbuildinfo"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.0",
     "@types/jest": "^30.0.0",
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.19.24",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "@types/wallpaper": "^2.5.1",
     "@types/yargs": "^17.0.34",
-    "electron-builder": "^26.0.12",
+    "@vitejs/plugin-react": "^5.1.0",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "electron-vite": "^2.3.0",
     "jest": "^30.2.0",
+    "rimraf": "^6.0.1",
     "ts-jest": "^29.4.5",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "wait-on": "^9.0.1"
   },
   "dependencies": {
+    "dotenv": "^16.6.1",
     "lowdb": "^7.0.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "sharp": "^0.34.4",
     "wallpaper": "^7.2.1"
   }

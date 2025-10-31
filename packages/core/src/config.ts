@@ -5,13 +5,16 @@ import fs from 'fs';
 import fsp from "fs/promises";
 import { Low } from 'lowdb';
 import { JSONFile } from 'lowdb/node';
-import { AppData } from './types.js';
+import { AppData, FetchQuery } from './types.js';
+import { sourceRegistry } from './sources/index.js';
+import { restartWallpaperService } from './scheduler.js';
 
 export interface Settings {
   dataPath: string;
   defaultSource: string;
   historyLength: number;
   autoChangeInterval: number; // (in minutes, 0 to disable)
+  autoChangeQuery: FetchQuery;
   imageQuality: 'auto' | 'raw' | 'full' | 'regular' | 'small';
 }
 
@@ -21,13 +24,22 @@ const defaults: Settings = {
   defaultSource: 'nekos',
   historyLength: 50,
   autoChangeInterval: 0,
+  autoChangeQuery: { source: 'nekos', query: 'random' },
   imageQuality: 'auto',
 };
-export const settingsMeta: Record<keyof Settings, {
-  description: string;
-  type: string;
-  choices?: string[];
-}> = {
+interface SettingMetaBase {
+  description: string
+  type: 'string' | 'number' | 'boolean' | 'object'
+  choices?: string[]
+}
+
+interface ObjectSettingMeta extends SettingMetaBase {
+  type: 'object'
+  properties: Record<string, SettingMetaBase>
+}
+
+type SettingMeta = SettingMetaBase | ObjectSettingMeta
+export const settingsMeta: Record<keyof Settings, SettingMeta> = {
   dataPath: {
     description: 'Path to the wallpaper database file',
     type: 'string',
@@ -35,6 +47,7 @@ export const settingsMeta: Record<keyof Settings, {
   defaultSource: {
     description: 'Default image source to fetch wallpapers from',
     type: 'string',
+    choices: Array.from(sourceRegistry.keys())
   },
   historyLength: {
     description: 'Maximum number of wallpapers to keep in history',
@@ -44,10 +57,18 @@ export const settingsMeta: Record<keyof Settings, {
     description: 'Automatically change wallpaper every N minutes (0 to disable)',
     type: 'number',
   },
+  autoChangeQuery: {
+    description: 'Default source and query for automatic wallpaper changes',
+    type: 'object',
+    properties: {
+      source: { description: 'Wallpaper source for auto changes', type: 'string', choices: ['unsplash', 'nekos', 'wallhaven'] },
+      query: { description: 'Search keyword or mood for auto changes', type: 'string' },
+    },
+  },
   imageQuality: {
-    description: 'Default image quality when downloading wallpapers',
+    description: 'The image quality to fetch',
     type: 'string',
-    choices: ['auto', 'raw', 'full', 'regular', 'small'],
+    choices: ['auto', 'raw', 'full', 'regular', 'small']
   },
 };
 
@@ -169,6 +190,7 @@ export function getSetting<K extends keyof Settings>(key: K): Settings[K] {
 
 export function setSetting<K extends keyof Settings>(key: K, value: Settings[K]): void {
   config.set(key, value)
+  restartWallpaperService();
 }
 
 export function getHistoryLength(): number {
@@ -183,4 +205,8 @@ export function getImageQuality(): Settings['imageQuality'] {
 }
 export function getAutoChangeInterval(): Settings['autoChangeInterval'] {
   return config.get('autoChangeInterval');
+}
+
+export function getAutoChangeQuery(): FetchQuery {
+  return config.get('autoChangeQuery');
 }
