@@ -1,7 +1,8 @@
-import { resolve } from 'path'
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
+import react from '@vitejs/plugin-react';
 import path from 'path';
+
+const MONOREPO_ROOT = path.resolve(__dirname, '../../');
 
 export default defineConfig({
   main: {
@@ -10,10 +11,10 @@ export default defineConfig({
       outDir: 'dist/main',
       rollupOptions: {
         external: [
-          'sharp',
+           'sharp',
           'electron',
           'path',
-          'fs',
+          'fs', 
         ],
         input: 'src/main/index.ts',
         output: {
@@ -23,6 +24,7 @@ export default defineConfig({
       },
     },
   },
+
   preload: {
     plugins: [externalizeDepsPlugin()],
     build: {
@@ -36,25 +38,26 @@ export default defineConfig({
       },
     },
   },
+
   renderer: {
-    // resolve: {
-    //   alias: {
-    //     '@renderer': resolve('src/renderer/src')
-    //   }
-    // },
-    // resolve: {
-    //   alias: {
-    //     '@munlicode/core': path.resolve(__dirname, '../core/src')
-    //   }
-    // },
+    resolve: {
+      alias: {
+        '@renderer': path.resolve(__dirname, 'src/renderer/src'), 
+        '@munlicode/core': path.resolve(MONOREPO_ROOT, 'packages/core/src')
+      }
+    },
+    
     server: {
       port: 5173,
       strictPort: true,
     },
+    
     plugins: [
       react()
     ],
+    
     root: 'src/renderer',
+    
     build: {
       outDir: 'dist/renderer',
       rollupOptions: {
@@ -62,4 +65,4 @@ export default defineConfig({
       },
     },
   }
-})
+});
