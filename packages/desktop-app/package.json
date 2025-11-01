@@ -23,12 +23,18 @@
     "start:electron-dev": "pnpm run dev:renderer & sleep 2 && pnpm exec wait-on http://localhost:5173 && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron-vite dev --watch",
     "dist": "electron-builder --linux AppImage",
     "dev": "cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron-vite dev --watch",
-    "start:electron": "wait-on tcp:5173 && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron-vite dev --watch"
+    "start:electron": "wait-on tcp:5173 && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron-vite dev --watch",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
   },
   "dependencies": {
-    "@wallpaper/core": "workspace:*"
+    "@wallpaper/core": "file:../core",
+    "electron-squirrel-startup": "^1.0.1"
   },
   "devDependencies": {
+    "@electron-forge/publisher-github": "^7.10.2",
     "electron": "^31.7.7",
     "electron-vite": "^2.3.0",
     "vite": "^5.3.3"
