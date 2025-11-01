@@ -1,4 +1,4 @@
-import { type SettingMeta } from '@munlicode/core';
+import { SettingInstance, type SettingMeta } from '@munlicode/core';
 import {
   settingsMeta,
   setSetting,
@@ -19,7 +19,7 @@ export function registerConfigHandlers() {
       const defaultSettings = getDefaultSettings() as any;
 
       // 2. Combine data for the renderer
-      const settingsData: SettingMeta[] = [];
+      const settingsData: SettingInstance<SettingMeta>[] = [];
 
       for (const [key, meta] of Object.entries(settingsMeta)) {
         const settingKey = key as keyof Settings;

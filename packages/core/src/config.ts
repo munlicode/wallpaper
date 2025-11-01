@@ -27,7 +27,14 @@ const defaults: Settings = {
   autoChangeQuery: { source: 'nekos', query: 'random' },
   imageQuality: 'auto',
 };
-interface SettingMetaBase {
+type SettingValueType<U extends SettingMeta['type']> = 
+  U extends 'string' ? string :
+  U extends 'number' ? number :
+  U extends 'boolean' ? boolean :
+  U extends 'object' ? Record<string, any> :
+  any;
+
+  interface SettingMetaBase {
   description: string
   type: 'string' | 'number' | 'boolean' | 'object'
   choices?: string[]
@@ -36,11 +43,24 @@ interface SettingMetaBase {
 
 interface ObjectSettingMeta extends SettingMetaBase {
   type: 'object'
-  properties: Record<string, SettingMetaBase>
+  // 💡 FIX: Changed from SettingMetaBase to the full SettingMeta union
+  properties: Record<string, SettingMeta> 
 }
 
 export type SettingMeta = SettingMetaBase | ObjectSettingMeta
-export const settingsMeta: Record<keyof Settings, SettingMeta> = {
+type SettingsMetaMap = Record<keyof Settings, SettingMeta>;
+/**
+ * Represents a concrete instance of a setting, combining its structural metadata
+ * with its live runtime value and unique key.
+ */
+export type SettingInstance<T extends SettingMeta> = T & {
+  key: string; 
+
+  currentValue: SettingValueType<T['type']>;
+  defaultValue: SettingValueType<T['type']>;
+};
+
+export const settingsMeta: SettingsMetaMap = {
   dataPath: {
     description: 'Path to the wallpaper database file',
     type: 'string',
