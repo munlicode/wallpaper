@@ -28,7 +28,7 @@ export function registerConfigHandlers() {
           key: key,
           description: meta.description,
           type: meta.type,
-          choices: meta.choices || null,
+          choices: meta.choices ?? undefined,
           currentValue: currentSettings.get(settingKey) ?? defaultSettings[key],
           defaultValue: defaultSettings[key],
         });

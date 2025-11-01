@@ -31,6 +31,7 @@ interface SettingMetaBase {
   description: string
   type: 'string' | 'number' | 'boolean' | 'object'
   choices?: string[]
+  key?: string
 }
 
 interface ObjectSettingMeta extends SettingMetaBase {

@@ -2,7 +2,6 @@ import { imageSize } from 'image-size';
 import * as fs from 'fs';
 export * from './types.js';
 
-// Export database functions
 export {
   addFavorite,
   getFavorites,
