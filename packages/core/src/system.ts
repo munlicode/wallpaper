@@ -1,20 +1,13 @@
 import axios from 'axios';
 import { createWriteStream } from 'fs';
-import { join } from 'path';
 import path from 'path';
 import fs from 'fs';
-import { homedir } from 'os';
 import { pipeline } from 'stream/promises';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { getDataPath } from './config.js';
 
 // Create a "promisified" version of exec
 const execAsync = promisify(exec);
-const dataPath = getDataPath()
-
-// A temporary path to store the downloaded image
-const tempImagePath = join(dataPath, 'current.jpg');
 
 /**
  * Downloads an image from a URL to a *specific* local file path.

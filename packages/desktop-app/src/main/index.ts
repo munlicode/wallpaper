@@ -1,4 +1,4 @@
-process.on('unhandledRejection', (reason, promise) => {
+process.on('unhandledRejection', (reason, _promise) => {
   console.error('Unhandled Rejection:', reason);
 });
 

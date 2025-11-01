@@ -1,9 +1,7 @@
-import { config } from '../config.js';
 import { FetchQuery, ISource, Wallpaper } from '../types.js';
 import { LocalSource } from './local.js';
 import { UnsplashSource } from './unsplash.js';
 import { NekosSource } from './nekos.js';
-import { sourceMapsEnabled } from 'process';
 
 // 1. Create a "registry" to hold all our available sources
 export const sourceRegistry = new Map<string, ISource>();

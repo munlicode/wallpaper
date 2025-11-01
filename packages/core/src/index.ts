@@ -19,7 +19,7 @@ export {
   deleteHistoryById,
 } from './database.js';
 export { sourceRegistry } from './sources/index.js';
-export { setCustomDataPath, getDataPath, getSettings, getSetting, setSetting, settingsMeta, getDefaultSettings, type Settings } from './config.js';
+export { setCustomDataPath, getDataPath, getSettings, getSetting, setSetting, settingsMeta, getDefaultSettings, type Settings, type SettingMeta } from './config.js';
 export {
   startWallpaperService,
   stopWallpaperService,
@@ -30,7 +30,7 @@ import { addToHistory, getBookmarks, getFavorites, getHistory } from './database
 import { getScreenResolution, selectOptimalUrl } from './resolution.js';
 import { resolveWallpaper } from './sources/index.js';
 import { downloadImage, setWallpaper } from './system.js';
-import { AppData, FetchQuery, Wallpaper } from './types.js'; // (Assuming you have AppData in types)
+import { AppData, FetchQuery, Wallpaper } from './types.js'; 
 import { tmpdir } from 'os';
 import { join } from 'path';
 import { getDataPath } from './config.js';

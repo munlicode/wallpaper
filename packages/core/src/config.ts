@@ -38,7 +38,7 @@ interface ObjectSettingMeta extends SettingMetaBase {
   properties: Record<string, SettingMetaBase>
 }
 
-type SettingMeta = SettingMetaBase | ObjectSettingMeta
+export type SettingMeta = SettingMetaBase | ObjectSettingMeta
 export const settingsMeta: Record<keyof Settings, SettingMeta> = {
   dataPath: {
     description: 'Path to the wallpaper database file',
