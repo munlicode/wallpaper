@@ -17,7 +17,7 @@ export const handleSet = async (wallpaperId: string, mode: WallpaperMode,
     return;
   }
 
-  setStatusMessage(`🎨 Setting wallpaper (${mode}): ${wallpaperId}...`);
+  setStatusMessage(`🎨 Setting wallpaper (${String(mode)}): ${wallpaperId}...`);
   setStatusColor('blue');
 
   try {

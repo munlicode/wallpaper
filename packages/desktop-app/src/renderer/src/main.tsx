@@ -4,7 +4,7 @@ import AppRouter from './AppRouter';
 
 declare global {
   interface Window {
-    wallpaperAPI: import('../shared/ipc-channels').IpcRendererApi;
+    wallpaperAPI: import('../../shared/ipc-channels').IpcRendererApi;
   }
 }
 
