@@ -1,7 +1,7 @@
 import {
   getAndSetWallpaper,
   type FetchQuery,
-} from '@wallpaper/core';
+} from '@munlicode/core';
 import { ipcMain } from 'electron';
 
 

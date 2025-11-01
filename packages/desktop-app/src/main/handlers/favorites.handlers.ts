@@ -3,7 +3,7 @@ import {
   getFavorites,
   removeFavorite,
   isFavorite
-} from '@wallpaper/core';
+} from '@munlicode/core';
 import { ipcMain } from 'electron';
 import { handleAddActionLogic } from './shared.utils';
 

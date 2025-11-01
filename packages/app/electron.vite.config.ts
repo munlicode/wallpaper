@@ -1,11 +1,9 @@
-import { resolve } from 'path'
-import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'electron-vite';
+import react from '@vitejs/plugin-react';
 import path from 'path';
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin()],
     build: {
       outDir: 'dist/main',
       rollupOptions: {
@@ -23,8 +21,8 @@ export default defineConfig({
       },
     },
   },
+
   preload: {
-    plugins: [externalizeDepsPlugin()],
     build: {
       outDir: 'dist/preload',
       rollupOptions: {
@@ -36,17 +34,13 @@ export default defineConfig({
       },
     },
   },
+
   renderer: {
-    // resolve: {
-    //   alias: {
-    //     '@renderer': resolve('src/renderer/src')
-    //   }
-    // },
-    // resolve: {
-    //   alias: {
-    //     '@munlicode/core': path.resolve(__dirname, '../core/src')
-    //   }
-    // },
+    resolve: {
+      alias: {
+        '@munlicode/core': path.resolve(__dirname, '../core/src')
+      }
+    },
     server: {
       port: 5173,
       strictPort: true,
@@ -61,5 +55,5 @@ export default defineConfig({
         input: 'src/renderer/index.html',
       },
     },
-  }
-})
+  },
+});

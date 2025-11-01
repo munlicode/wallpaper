@@ -1,0 +1,75 @@
+name: wallpaper-suite
+version: "1.0.0"
+summary: Desktop Wallpaper Application Suite
+description: |
+  A complete suite for managing desktop wallpapers, including a 
+  command-line tool and a future GUI application.
+
+base: core22
+confinement: strict
+
+# ---
+# CRITICAL PART: Internal Dependency (wallpaper-core)
+# This part must be defined first, as both 'cli' and 'app' depend on it.
+# The source path should point to your 'packages/core' directory.
+# ---
+parts:
+  wallpaper-core:
+    plugin: npm
+    source: packages/core # Path to your shared core library
+    npm-node-version: "20"
+    npm-include-node: true # Core library likely doesn't need its own Node.js runtime
+    organize:
+      "install/lib/node_modules/@munlicode/core": "usr/local/lib/node_modules/@munlicode/core"
+
+  # ---
+  # CLI Part
+  # ---
+  cli:
+    plugin: npm
+    source: packages/cli # Path to your CLI package
+    # CRUCIAL: Must be built AFTER the core library is staged
+    after: [wallpaper-core]
+    npm-node-version: "20"
+    npm-include-node: true # CLI needs Node.js runtime to execute
+
+    build: |
+      # 1. Manually link the staged core module
+      npm link /root/stage/usr/local/lib/node_modules/@munlicode/core
+
+      # 2. Run the main install command for the cli package
+      npm install
+
+      # 3. Use 'npm link' command if your cli.js uses the symlink to the package globally
+      npm link
+
+# ---
+# App Part (GUI/Main Application) - Currently commented out
+# ---
+# app:
+#   plugin: npm
+#   source: packages/app # Path to your main app package (e.g., Electron/React)
+#   after: [wallpaper-core]
+#   npm-node-version: "20"
+#   npm-include-node: true
+
+# ---
+# Applications (Executables)
+# ---
+apps:
+  wallpaper-cli:
+    # command should reflect the final path to your CLI entry point within the snap structure
+    command: packages/cli/dist/cli.js
+    plugs:
+      - network
+      - home
+      - desktop # CLI may need desktop access for applying wallpapers
+
+
+  # wallpaper-app:
+  #   command: packages/app/path/to/executable # Path to the main app binary/script
+  #   plugs:
+  #     - network
+  #     - home
+  #     - desktop
+  #     - desktop-legacy # Often required for GUI apps

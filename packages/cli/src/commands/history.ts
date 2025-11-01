@@ -1,5 +1,5 @@
-import { clearHistory, deleteHistoryById, getHistory } from "@wallpaper/core";
-import type { Wallpaper } from "@wallpaper/core";
+import { clearHistory, deleteHistoryById, getHistory } from "@munlicode/core";
+import type { Wallpaper } from "@munlicode/core";
 
 export const HistoryCommand = {
   command: "history <action>",

@@ -1,4 +1,4 @@
-import { sourceRegistry } from "@wallpaper/core";
+import { sourceRegistry } from "@munlicode/core";
 
 export const SourcesCommand = {
   command: "sources <action>",

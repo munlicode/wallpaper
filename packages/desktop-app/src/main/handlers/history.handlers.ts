@@ -2,7 +2,7 @@ import {
   getHistory,
   clearHistory,
   deleteHistoryById,
-} from '@wallpaper/core';
+} from '@munlicode/core';
 import { ipcMain } from 'electron';
 
 export function registerHistoryHandlers() {

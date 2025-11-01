@@ -1,5 +1,5 @@
-import { getAndSetWallpaper, getSetting } from "@wallpaper/core";
-import type { FetchQuery } from "@wallpaper/core";
+import { getAndSetWallpaper, getSetting } from "@munlicode/core";
+import type { FetchQuery } from "@munlicode/core";
 
 const defaultSource = getSetting('defaultSource')
 

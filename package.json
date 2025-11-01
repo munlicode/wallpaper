@@ -1,6 +1,5 @@
 {
   "name": "wallpaper-tool-monorepo",
-  "private": true,
   "version": "1.0.0",
   "description": "Desktop and CLI wallpaper tool",
   "workspaces": [
@@ -8,13 +7,25 @@
   ],
   "scripts": {
     "build": "tsc --build",
-    "dev:cli": "pnpm --filter @wallpaper/cli dev",
-    "dev:desktop": "pnpm --filter @wallpaper/desktop-app dev",
-    "dev:deskt": "pnpm --filter @wallpaper/desktop-app dev-",
+    "dev:cli": "pnpm --filter @munlicode/cli dev",
+    "dev:desktop": "pnpm --filter @munlicode/desktop-app dev",
     "test": "NODE_OPTIONS=--experimental-vm-modules pnpm jest",
-    "clean": "rimraf packages/*/dist packages/*/tsconfig.tsbuildinfo"
+    "clean": "rimraf packages/*/dist packages/*/tsconfig.tsbuildinfo",
+    "desktop:start": "pnpm --filter @munlicode/desktop-app start",
+    "desktop:package": "pnpm --filter @munlicode/desktop-app package",
+    "desktop:make": "pnpm --filter @munlicode/desktop-app make",
+    "desktop:publish": "pnpm --filter @munlicode/desktop-app publish"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron",
+      "esbuild"
+    ]
   },
   "devDependencies": {
+    "@electron-forge/cli": "^7.10.2",
+    "@electron-forge/maker-deb": "^7.10.2",
+    "@electron-forge/maker-zip": "^7.10.2",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.19.24",
@@ -25,7 +36,7 @@
     "@vitejs/plugin-react": "^5.1.0",
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
-    "electron-builder": "^26.0.12",
+    "electron": "^31.7.7",
     "electron-vite": "^2.3.0",
     "jest": "^30.2.0",
     "pkg": "^5.8.1",

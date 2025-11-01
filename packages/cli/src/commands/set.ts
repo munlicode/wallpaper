@@ -1,4 +1,4 @@
-import { getBookmarks, getFavorites, getHistory, setWallpaperFromList, type Wallpaper } from "@wallpaper/core";
+import { getBookmarks, getFavorites, getHistory, setWallpaperFromList, type Wallpaper } from "@munlicode/core";
 
 export const SetCommand = {
   command: "set",

@@ -1,5 +1,5 @@
-import { getFavorites, addFavorite, removeFavorite, getCurrentWallpaper } from "@wallpaper/core";
-import type { Wallpaper } from "@wallpaper/core";
+import { getFavorites, addFavorite, removeFavorite, getCurrentWallpaper } from "@munlicode/core";
+import type { Wallpaper } from "@munlicode/core";
 import { handleAddAction } from "../helpers.js";
 
 export const FavoritesCommand = {

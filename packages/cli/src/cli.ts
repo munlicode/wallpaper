@@ -7,7 +7,7 @@ import { hideBin } from 'yargs/helpers';
 import {
   // Sources
   sourceRegistry,
-} from '@wallpaper/core';
+} from '@munlicode/core';
 import { configCommand } from './commands/config.js';
 import { SourcesCommand } from './commands/sources.js';
 import { FavoritesCommand } from './commands/favorites.js';

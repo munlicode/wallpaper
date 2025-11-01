@@ -7,7 +7,7 @@ import {
   Settings,
   setSetting,
   getSetting
-} from '@wallpaper/core';
+} from '@munlicode/core';
 
 
 type ConfigHandlers = {

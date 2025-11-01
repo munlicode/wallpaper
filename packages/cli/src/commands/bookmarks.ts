@@ -1,5 +1,5 @@
-import { addBookmark, getBookmarks, getCurrentWallpaper, removeBookmark } from "@wallpaper/core";
-import type { Wallpaper } from "@wallpaper/core";
+import { addBookmark, getBookmarks, getCurrentWallpaper, removeBookmark } from "@munlicode/core";
+import type { Wallpaper } from "@munlicode/core";
 import { handleAddAction } from "../helpers.js";
 
 export const BookmarksCommand = {
