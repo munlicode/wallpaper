@@ -10,6 +10,8 @@
     "composite": true,
     "types": [
       "electron-vite/node"
-    ]
+    ],
+    "outDir": "dist/main",
+    "noEmit": false
   }
 }
