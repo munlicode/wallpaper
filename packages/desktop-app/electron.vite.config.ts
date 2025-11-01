@@ -56,12 +56,12 @@ export default defineConfig({
       react()
     ],
     
-    root: 'src/renderer',
+    root: 'src/renderer/src/',
     
     build: {
       outDir: 'dist/renderer',
       rollupOptions: {
-        input: 'src/renderer/index.html',
+        input: 'src/renderer/src/index.html',
       },
     },
   }
