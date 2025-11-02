@@ -1,5 +1,5 @@
 {
-  "name": "@munlicode/core",
+  "name": "@munlicode/munliwall-core",
   "version": "1.0.0",
   "type": "module",
   "main": "dist/index.js",

@@ -1,4 +1,4 @@
-import { getBookmarks, getFavorites, getHistory, setWallpaperFromList } from "@munlicode/core";
+import { getBookmarks, getFavorites, getHistory, setWallpaperFromList } from "@munlicode/munliwall-core";
 import { ipcMain } from 'electron';
 
 export function registerSetHandlers() {

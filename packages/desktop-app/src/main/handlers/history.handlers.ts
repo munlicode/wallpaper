@@ -2,7 +2,7 @@ import {
   getHistory,
   clearHistory,
   deleteHistoryById,
-} from '@munlicode/core';
+} from '@munlicode/munliwall-core';
 import { ipcMain } from 'electron';
 
 export function registerHistoryHandlers() {

@@ -1,4 +1,4 @@
-import { randomWallpaper } from "@munlicode/core";
+import { randomWallpaper } from "@munlicode/munliwall-core";
 
 export const RandomCommand = {
   command: "random",

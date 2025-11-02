@@ -1,20 +1,32 @@
-appId: com.electron.app
-productName: munlicode/desktop-app
+appId: com.munlicode.munliwall
+productName: MunliWall
 directories:
   buildResources: build
 files:
+  - dist/**
   - "!**/.vscode/*"
   - "!src/*"
   - "!electron.vite.config.{js,ts,mjs,cjs}"
   - "!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}"
   - "!{.env,.env.*,.npmrc,pnpm-lock.yaml}"
   - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
-  - "!../core/**/*"
-  - "+../core/dist/*.js"
+extraFiles:
+  # This tells the builder to take the compiled JS files from 'core/dist'
+  # and place them directly into the 'desktop-app' structure for packaging.
+  - from: ../core/dist
+    to: node_modules/core/dist # Or wherever your app expects the files to be referenced from
+    filter:
+      - "**/*.js"
+      - "!**/*.map"
 asarUnpack:
+extraResources:
+  - from: ../core/dist/config.js
+    to: core/config.js
+
   - resources/**
+executableName: MunliWall
 win:
-  executableName: munlicode/desktop-app
+  executableName: MunliWall
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
@@ -38,7 +50,7 @@ linux:
   maintainer: electronjs.org
   category: Utility
 appImage:
-  artifactName: ${name}-${version}.${ext}
+  artifactName: ${productName}-${version}.${ext}
 npmRebuild: false
 publish:
   provider: generic

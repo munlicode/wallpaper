@@ -1,5 +1,5 @@
 {
-  "name": "wallpaper-tool-monorepo",
+  "name": "@munlicode/munliwall-root",
   "version": "1.0.0",
   "description": "Desktop and CLI wallpaper tool",
   "workspaces": [
@@ -7,14 +7,14 @@
   ],
   "scripts": {
     "build": "tsc --build",
-    "dev:cli": "pnpm --filter @munlicode/cli dev",
-    "dev:desktop": "pnpm --filter @munlicode/desktop-app dev",
+    "dev:cli": "pnpm --filter @munlicode/munliwall-cli dev",
+    "dev:desktop": "pnpm --filter @munlicode/munliwall-desktop dev",
     "test": "NODE_OPTIONS=--experimental-vm-modules pnpm jest",
     "clean": "rimraf packages/*/dist packages/*/tsconfig.tsbuildinfo",
-    "desktop:start": "pnpm --filter @munlicode/desktop-app start",
-    "desktop:package": "pnpm --filter @munlicode/desktop-app package",
-    "desktop:make": "pnpm --filter @munlicode/desktop-app make",
-    "desktop:publish": "pnpm --filter @munlicode/desktop-app publish"
+    "desktop:start": "pnpm --filter @munlicode/munliwall-desktop start",
+    "desktop:package": "pnpm --filter @munlicode/munliwall-desktop package",
+    "desktop:make": "pnpm --filter @munlicode/munliwall-desktop make",
+    "desktop:publish": "pnpm --filter @munlicode/munliwall-desktop publish"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

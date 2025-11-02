@@ -1,6 +1,6 @@
 import {
   sourceRegistry,
-} from '@munlicode/core';
+} from '@munlicode/munliwall-core';
 import { ipcMain } from 'electron';
 
 export function registerSourcesHandlers() {

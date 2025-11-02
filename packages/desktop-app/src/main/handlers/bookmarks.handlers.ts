@@ -3,7 +3,7 @@ import {
   getBookmarks,
   isBookmarked,
   removeBookmark,
-} from '@munlicode/core';
+} from '@munlicode/munliwall-core';
 import { ipcMain } from 'electron';
 import { handleAddActionLogic } from './shared.utils';
 

@@ -1,4 +1,4 @@
-import { getCurrentWallpaper, Wallpaper } from '@munlicode/core';
+import { getCurrentWallpaper, Wallpaper } from '@munlicode/munliwall-core';
 
 type CoreActionFunction = (id: string) => Promise<Wallpaper>;
 

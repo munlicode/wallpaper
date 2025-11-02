@@ -20,7 +20,7 @@ parts:
     npm-node-version: "20"
     npm-include-node: true # Core library likely doesn't need its own Node.js runtime
     organize:
-      "install/lib/node_modules/@munlicode/core": "usr/local/lib/node_modules/@munlicode/core"
+      "install/lib/node_modules/@munlicode/munliwall-core": "usr/local/lib/node_modules/@munlicode/munliwall-core"
 
   # ---
   # CLI Part
@@ -35,7 +35,7 @@ parts:
 
     build: |
       # 1. Manually link the staged core module
-      npm link /root/stage/usr/local/lib/node_modules/@munlicode/core
+      npm link /root/stage/usr/local/lib/node_modules/@munlicode/munliwall-core
 
       # 2. Run the main install command for the cli package
       npm install

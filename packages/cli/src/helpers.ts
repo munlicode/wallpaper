@@ -1,6 +1,6 @@
 // This function handles the 'current' logic and the common error structure.
 
-import { getCurrentWallpaper, Wallpaper } from "@munlicode/core";
+import { getCurrentWallpaper, Wallpaper } from "@munlicode/munliwall-core";
 
 type CoreActionFunction = (id: string) => Promise<Wallpaper>;
 

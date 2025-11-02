@@ -12,7 +12,7 @@
     "make ": "electron-vite build --outDir=dist && electron-forge make"
   },
   "dependencies": {
-    "@munlicode/core": "file:../core"
+    "@munlicode/munliwall-core": "file:../core"
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.10.2",

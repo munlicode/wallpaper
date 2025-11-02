@@ -7,7 +7,7 @@ import { hideBin } from 'yargs/helpers';
 import {
   // Sources
   sourceRegistry,
-} from '@munlicode/core';
+} from '@munlicode/munliwall-core';
 import { configCommand } from './commands/config.js';
 import { SourcesCommand } from './commands/sources.js';
 import { FavoritesCommand } from './commands/favorites.js';
@@ -19,7 +19,7 @@ import { RandomCommand } from './commands/random.js';
 const availableSources = Array.from(sourceRegistry.keys());
 
 yargs(hideBin(process.argv))
-  .scriptName("wallpaper")
+  .scriptName("munliwall")
 
   // The main command
   .command(MainCommand.command, MainCommand.describe, (y) => MainCommand.builder(y, availableSources), MainCommand.handler)

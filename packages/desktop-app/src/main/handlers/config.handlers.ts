@@ -1,4 +1,4 @@
-import { SettingInstance, type SettingMeta } from '@munlicode/core';
+import { SettingInstance, type SettingMeta } from '@munlicode/munliwall-core';
 import {
   settingsMeta,
   setSetting,
@@ -6,7 +6,7 @@ import {
   getSetting,
   getDefaultSettings,
   Settings
-} from '@munlicode/core';
+} from '@munlicode/munliwall-core';
 import { ipcMain } from 'electron';
 
 

@@ -1,4 +1,4 @@
-import { sourceRegistry } from "@munlicode/core";
+import { sourceRegistry } from "@munlicode/munliwall-core";
 
 export const SourcesCommand = {
   command: "sources <action>",

@@ -10,7 +10,7 @@ import { app, BrowserWindow } from 'electron';
 import * as dotenv from 'dotenv';
 import {
   startWallpaperService,
-} from '@munlicode/core';
+} from '@munlicode/munliwall-core';
 import { registerIPCHandlers } from './handlers/index.js';
 import { createMenu } from './menu.js';
 import path from 'path';

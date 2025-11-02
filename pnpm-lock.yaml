@@ -93,7 +93,7 @@ importers:
 
   packages/app:
     dependencies:
-      '@munlicode/core':
+      '@munlicode/munliwall-core':
         specifier: file:../core
         version: link:../core
     devDependencies:
@@ -127,7 +127,7 @@ importers:
 
   packages/cli:
     dependencies:
-      '@munlicode/core':
+      '@munlicode/munliwall-core':
         specifier: file:../core
         version: link:../core
       '@types/yargs':
@@ -192,7 +192,7 @@ importers:
       '@electron-toolkit/utils':
         specifier: ^4.0.0
         version: 4.0.0(electron@38.5.0)
-      '@munlicode/core':
+      '@munlicode/munliwall-core':
         specifier: workspace:^1.0.0
         version: link:../core
       electron-updater:

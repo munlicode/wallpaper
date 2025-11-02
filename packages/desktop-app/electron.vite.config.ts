@@ -43,7 +43,7 @@ export default defineConfig({
     resolve: {
       alias: {
         '@renderer': path.resolve(__dirname, 'src/renderer/src'), 
-        '@munlicode/core': path.resolve(MONOREPO_ROOT, 'packages/core/src')
+        '@munlicode/munliwall-core': path.resolve(MONOREPO_ROOT, 'packages/core/src')
       }
     },
     

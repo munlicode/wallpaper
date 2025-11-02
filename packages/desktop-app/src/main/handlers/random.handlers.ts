@@ -1,4 +1,4 @@
-import { randomWallpaper } from "@munlicode/core";
+import { randomWallpaper } from "@munlicode/munliwall-core";
 import { ipcMain } from 'electron';
 
 export interface RandomOptions {

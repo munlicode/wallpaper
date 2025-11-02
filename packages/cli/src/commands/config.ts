@@ -7,7 +7,7 @@ import {
   Settings,
   setSetting,
   getSetting
-} from '@munlicode/core';
+} from '@munlicode/munliwall-core';
 
 
 type ConfigHandlers = {

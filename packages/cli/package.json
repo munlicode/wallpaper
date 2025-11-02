@@ -1,11 +1,11 @@
 {
-  "name": "@munlicode/cli",
+  "name": "@munlicode/munliwall-cli",
   "version": "1.0.0",
   "type": "module",
   "description": "A simple yet powerful tool designed to transform your workspace with ease. Wallpaper lets you effortlessly manage your desktop backgrounds — fetch new wallpapers by keyword, source, or category, schedule automatic updates, or quickly apply local images via the command line.",
   "author": "Nurzhan Murakhan <nurzhanmuratkhan@gmail.com>",
   "bin": {
-    "wallpaper": "dist/cli.js"
+    "munliwall": "dist/cli.js"
   },
   "pkg": {
     "scripts": "dist/**/*.js",
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@types/yargs": "^17.0.32",
-    "@munlicode/core": "file:../core",
+    "@munlicode/munliwall-core": "file:../core",
     "dotenv": "^16.4.5",
     "yargs": "^17.7.2"
   },

@@ -1,6 +1,6 @@
 import {
   getCurrentWallpaper,
-} from '@munlicode/core';
+} from '@munlicode/munliwall-core';
 import { ipcMain } from 'electron';
 
 
